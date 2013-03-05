@@ -354,4 +354,4 @@ END
 
 
 my $user = $ENV{"USER"};
-print "\nsudo bash -c \"$user ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers\"\n
+print "\nsudo bash -c \"$user ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers\"\n"
