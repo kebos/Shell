@@ -63,7 +63,7 @@ if has("cscope")
     set cscopetag
     set csto=0
 
-    let curdir = getcwd()
+    let curdir = fnameescape(getcwd())
 
     while !filereadable("cscope.out") && getcwd() != "/"
         cd ..
