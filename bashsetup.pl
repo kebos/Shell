@@ -70,10 +70,10 @@ if has("cscope")
     endwhile
 
     if filereadable("cscope.out")
-        execute "cs add " . getcwd() . "/cscope.out " . getcwd() . ""
+        execute "cs add " . fnameescape(getcwd()) . "/cscope.out " . fnameescape(getcwd()) . ""
     endif
 
-    execute "cd \"" . curdir."\""
+    execute "cd " . curdir
 
     set cscopeverbose  
 
