@@ -109,6 +109,7 @@ if has("cscope")
 endif
 
 set nowrapscan
+set syntax
  
 VIMRC
 our $bashrcExtra = <<'BASHRC';
