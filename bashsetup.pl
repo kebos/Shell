@@ -11,6 +11,8 @@ $base = $ENV{HOME};
 createFile("$base/bin/vim", $vimExtra);
 createFile("$base/bin/mvim", $mvimExtra);
 createFile("$base/bin/cdh", $cdhExtra);
+createFile("$base/bin/genTest", $genTestExtra);
+createFile("$base/bin/testLog", $testLogExtra);
 print "Creating hilite program\n";
 open my $fh, "| gcc -x c - -o \"$ENV{HOME}/bin/hilite\"";
 print $fh $hiliteProg;
@@ -218,6 +220,34 @@ for(@evict){
 }
 close($fh);
 CDHEXTRA
+
+our $genTestExtra = <<'GENTEST';
+
+#!/usr/bin/perl
+$name = pop(@ARGV);
+$name = $name . ".sh";
+open(my $fh, ">$name");
+print $fh <<EOL;
+#!/bin/bash
+EOL
+print $fh "@ARGV";
+`chmod +x $name`
+
+GENTEST
+
+our $testLogExtra = <<'LOGTEST';
+
+#!/usr/bin/perl
+$run = pop(@ARGV);
+$runCount = 0;
+while (-e "$run.stdout.$runCount"){
+        $runCount = $runCount + 1;
+}
+
+my @args = ("bash", "-c", "./$run > >(tee $run.stdout.$runCount) 2 > >(tee $run.stderr.$runCount) | perl -pne'print `date;`'");
+system(@args);
+
+LOGTEST
 
 our $hiliteProg= <<'END';
 
