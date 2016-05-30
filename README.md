@@ -1,18 +1,14 @@
 Shell
 =====
 
-Standard bash shell settings compatible with cygwin:
+Standard bash shell setup compatible with cygwin - I can't work without directory history in particular.
 
-Most recently used directly list program and shortcuts
+cdh - Most recently used directories. cdh l - lists the directory. cdh 23 opens directory 23rd MRU directory from list
 
-  cdh l (list previous 30 visited directories, cdh ll (list all previous), cdg # (go to directory # from cdh)
-  
-vim shortcuts to read grep output
-
-vim shortcut to read multiple grep output (mvim)
-
-hiliter 
-
-cscope settings for traversing upwards to find ctags
-
-Basic vim settings
+f - ```find . -iname``` expander
+fxg - ```find . -iname "" | xargs grep -In ""``` expander
+g - ``` grep -Irni "" .``` expander 
+mvim - Open grep search results in vim one by one (paste in results from g)
+n - Number outputs of command e.g. ```grep -Irni "A search" | n```
+nr - Pick from the output e.g. ```vim \`nr 11\````
+v - Vim expander for grep results e.g. accepts file.c:23:
