@@ -7,9 +7,9 @@ cdh - Most recently used directories. cdh l - lists the directory. cdh 23 opens 
 
 f - ```find . -iname``` expander
 
-fxg - ```find . -iname "" | xargs grep -In ""``` expander
+fxg - ```find . -iname "" | xargs grep -In ""``` expander e.g. fxg "\*.c" "struct name"
 
-g - ``` grep -Irni "" .``` expander 
+g - ``` grep -Irni "" .``` expander e.g. g "a search"
 
 mvim - Open grep search results in vim one by one (paste in results from g)
 
