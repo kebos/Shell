@@ -1,6 +1,6 @@
 Shell
 =====
-# Summary
+
 Standard bash shell setup compatible with cygwin - I can't work without directory history in particular.
 
 # Features
