@@ -1,0 +1,3 @@
+#!/usr/bin/perl
+my @arr; push(@arr, $_) while (<>); (/^(.*):(\d+):/) ? system("/usr/bin/vim", $1, "+$2") : system("/usr/bin/vim $_") for (@arr);
+

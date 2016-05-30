@@ -1,0 +1,15 @@
+#!/usr/bin/perl -n
+
+BEGIN{
+$a++;
+	open($fh, "> ".$ENV{"HOME"}."/.tempNumb") or die "Bad file handle";
+}
+$orig = $_;
+s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g;
+print $a++.": $orig";
+print $fh "$_";
+
+END{
+	close $fh;
+}
+

@@ -1,0 +1,129 @@
+#!/usr/bin/perl
+use Fcntl qw(:flock);
+use Term::ANSIColor;
+$MAXSIZE = 400;
+$PRINTSIZE = 35;
+$logFile = "$ENV{HOME}/.cdh";
+$loc = `pwd`;
+
+
+# List directories, mru will be at bottom
+
+if ($ARGV[0] eq "l"){
+        $PRINTSIZE = $MAXSIZE if ($ARGV[1] eq "a");
+        open($fh, "<$logFile") or exit;
+        flock($fh, LOCK_SH) or die "Couldn't lock file";
+	$i = 0;
+	$c = 0;
+        while (<$fh>){
+
+		print color("bright_red") if ($c == 0);
+		print color("bright_green") if ($c == 1);
+		print color("bright_magenta") if ($c == 2);
+		print color("bright_cyan") if ($c == 3);
+		$c++;
+		$c = 0 if ($c == 4);	
+                print "". $i . " " . $_;
+                if ($i++ > $PRINTSIZE){
+			print color("reset");
+			exit;
+		}
+                <$fh>;
+        }
+        exit;
+}elsif ($ARGV[0] eq "ll"){
+        $PRINTSIZE = $MAXSIZE if ($ARGV[1] eq "a");
+        open($fh, "<$logFile") or exit;
+        flock($fh, LOCK_SH) or die "Couldn't lock file";
+	$i = 0;
+	$c = 0;
+        while (<$fh>){
+
+
+		print color("bright_red") if ($c == 0);
+		print color("bright_green") if ($c == 1);
+		print color("bright_magenta") if ($c == 2);
+		print color("bright_cyan") if ($c == 3);
+		$c++;
+
+		$c = 0 if ($c == 4);	
+
+                print "". $i . " " . $_;
+		$i++;
+                <$fh>;
+        }
+	print color("reset");
+        exit;
+}elsif ($ARGV[0] eq "g"){
+	$line = $ARGV[1] + 0;
+	open($fh, "<$logFile") or exit;
+        flock($fh, LOCK_SH) or die "Couldn't lock file";
+        while (<$fh>){
+		if ($i++ == $line){
+			print "$_";
+			exit 0;
+		}
+                <$fh>;
+        }
+	close $fh;
+	exit;
+}elsif ($ARGV[0] eq "r"){# Clear directory history
+        `rm "$logFile"` if (-e $logFile);
+        exit;
+}elsif ($ARGV[0] eq "i"){# install it  
+	die "must be run from directory containing cdh" unless (-e "cdh");
+	`mkdir "~/bin"` unless (-e "~/bin");
+	`cat cdh > ~/bin/cdh` unless (-e "~/bin/cdh");
+	$check_bash = `cat ~/.bashrc`;
+	if ($check_bash =~ /PSOBEK/){ die "already installed" 
+	}else{
+	$append = <<'BASH_APPEND'; 
+# PSOBEK
+export PATH=$HOME/bin:$PATH
+cdhistory(){
+        cd "$@"
+        cdh
+}
+cdhGo(){
+        cd "$(cdh g $@)"
+        cdh
+}
+
+alias cd=cdhistory
+alias cdg=cdhGo
+
+BASH_APPEND
+	open (my $fh, ">>", "~/.bashrc") or die "Can't open bashrc";
+	print $fh $append;
+	close $fh;
+	print "Now installed, please source ~/.bashrc or login & out\n";
+	}
+        exit;
+}elsif (!$ARGV[0]){}else{
+	print "Invalid commands, accepts l (list) g (print #), r (reset list) and i (install)\n";
+}
+
+# Read in directory history
+if (open($fh, "<$logFile")){
+        flock($fh, LOCK_SH) or die "Couldn't lock file";
+        while(<$fh>){
+                $timestamp = <$fh>;
+                chomp($timestamp);
+                $cdh{$_} = $timestamp;
+        }
+        close ($fh);
+}
+
+$cdh{$loc} = time();
+@evict = sort {$cdh{$b} <=> $cdh{$a} } (keys %cdh);
+pop @evict if ($#evict > $MAXSIZE);
+
+#Write out log file again
+open($fh, ">$logFile") or die "Couldn't write";
+flock($fh, LOCK_EX) or die "Couldn't lock file";;
+for(@evict){
+        print $fh $_;
+        print $fh $cdh{$_} . "\n";
+}
+close($fh);
+
