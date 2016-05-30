@@ -19,3 +19,4 @@ nr - Pick from the output e.g. ```vim \`nr 11\````
 
 v - Vim expander for grep results e.g. accepts file.c:23:
 
+Copy to ~/bin directory then go into installer directory and run ```bash install.sh```
