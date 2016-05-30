@@ -1,9 +1,14 @@
 Shell
 =====
 
+Standard bash shell setup compatible with cygwin - I can't work without directory history in particular.
+
+See below image for example of directory history
 ![](installer/cdh.png)
 
-Standard bash shell setup compatible with cygwin - I can't work without directory history in particular.
+Note that there is no limit to the directory history - _extremely_ useful for grepping and grabbing paths.
+
+
 
 # Features
 cdh - Most recently used directories. ```cdh l``` - lists the directory. ```cdh 23``` opens directory 23rd MRU directory from list. ```cdh ll``` lists all recorded directories MRU.
