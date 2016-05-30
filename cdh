@@ -30,6 +30,7 @@ if ($ARGV[0] eq "l"){
 		}
                 <$fh>;
         }
+        print color("reset");
         exit;
 }elsif ($ARGV[0] eq "ll"){
         $PRINTSIZE = $MAXSIZE if ($ARGV[1] eq "a");
