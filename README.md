@@ -1,8 +1,9 @@
 Shell
 =====
-
+# Summary
 Standard bash shell setup compatible with cygwin - I can't work without directory history in particular.
 
+# Features
 cdh - Most recently used directories. ```cdh l``` - lists the directory. ```cdh 23``` opens directory 23rd MRU directory from list. ```cdh ll``` lists all recorded directories MRU.
 
 f - ```find . -iname``` expander
@@ -18,5 +19,8 @@ n - Number outputs of command e.g. ```grep -Irni "A search" | n```
 nr - Pick from the output e.g. ```vim \`nr 11\````
 
 v - Vim expander for grep results e.g. accepts file.c:23:
+
+
+#Installation
 
 Copy to ~/bin directory then go into installer directory and run ```bash install.sh```
