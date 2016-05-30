@@ -26,7 +26,7 @@ mvim - Open grep search results in vim one by one (paste in results from g)
 
 n - Number outputs of command e.g. ```grep -Irni "A search" | n```
 
-nr - Pick from the output e.g. ```vim \`nr 11\````
+nr - Pick from the output e.g. ```vim `nr 11\````
 
 v - Vim expander for grep results e.g. accepts file.c:23:
 
